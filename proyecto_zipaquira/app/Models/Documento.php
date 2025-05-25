@@ -26,4 +26,10 @@ class Documento extends Model
     {
         return $this->belongsTo(Usuario::class, 'usuario_id');
     }
+
+    public function metas()
+{
+    return $this->belongsToMany(Meta::class, 'Documento_Meta', 'documento_id', 'meta_id')
+        ->withPivot(['tipo_relacion', 'usuario_relacion']);
+}
 }

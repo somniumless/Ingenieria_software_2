@@ -87,4 +87,17 @@ class DocumentoController extends Controller
                 ->with('error', 'Ocurrió un error al subir el documento. Por favor intente nuevamente');
         }
     }
+
+    public function asociarMeta(Request $request, $documentoId)
+{
+    $request->validate(['meta_id' => 'required|exists:Meta,meta_id']);
+
+    $documento = Documento::findOrFail($documentoId);
+    $documento->metas()->attach($request->meta_id, [
+        'tipo_relacion' => 'EVIDENCIA',
+        'usuario_relacion' => auth()->user()->usuario_id
+    ]);
+
+    return back()->with('success', 'Meta asociada correctamente');
+}
 }
